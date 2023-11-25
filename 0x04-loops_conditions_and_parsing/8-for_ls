@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#display content 
+
+list=$(ls)
+
+for item in $list
+do
+echo "$item" | cut -d '-' -f 2
+done
