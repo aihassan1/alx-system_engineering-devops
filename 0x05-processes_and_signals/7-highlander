@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#!/usr/bin/env bash
+# Bash script that displays To infinity and beyond indefinitely.
+
+
+
+while true ; do 
+
+termination_handler ()
+{
+echo "I am invincible!!!"
+} 
+
+trap termination_handler SIGTERM
+
+echo "To infinity and beyond"
+sleep 2
+
+done
