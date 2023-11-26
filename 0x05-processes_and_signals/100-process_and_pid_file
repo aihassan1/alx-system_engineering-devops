@@ -23,14 +23,14 @@ while true ; do
     sigint_handler() 
         {
         echo "Y U no love me?!"
-        rm "$newfile"
+        rm /var/run/myscript.pid
         exit 0
         }
     trap sigint_handler SIGINT
     
     sigquit_handler()
         {
-        rm "$newfile"
+        rm /var/run/myscript.pid
         exit 0
         }
     trap sigquit_handler SIGQUIT
