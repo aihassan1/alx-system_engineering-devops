@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+newfile="/var/run/myscript.pid"
+
+echo "$$" > "$newfile"
+
+
+while true ; do 
+
+    termination_handler ()
+        {
+        echo "I hate the kill command"
+        exit 0
+        } 
+    trap termination_handler SIGTERM
+    
+    
+    sigint_handler() 
+        {
+        echo "Y U no love me?!"
+        rm "$newfile"
+        exit 0
+        }
+    trap sigint_handler SIGINT
+    
+    sigquit_handler()
+        {
+        rm "$newfile"
+        exit 0
+        }
+    trap sigquit_handler SIGQUIT
+    
+    
+    echo "To infinity and beyond"
+    sleep 2
+    
+done
