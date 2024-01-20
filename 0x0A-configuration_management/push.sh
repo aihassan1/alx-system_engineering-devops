@@ -8,4 +8,4 @@ git config --global user.name "aihassan1"
 git add .
 git commit -m "$*"
 git push
-.
+
