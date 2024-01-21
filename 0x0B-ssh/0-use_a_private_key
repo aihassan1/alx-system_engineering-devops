@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Specify the full path to the private key
-PRIVATE_KEY_PATH="$HOME/.ssh/school"
+PRIVATE_KEY_PATH=~/.ssh/school
+
+# Specify the server IP address or hostname
+SERVER_IP=54.237.97.198
 
 # Use ssh with the private key to connect to the server
-ssh -i "$PRIVATE_KEY_PATH" ubuntu@54.237.97.198
+ssh -i "$PRIVATE_KEY_PATH" ubuntu@$SERVER_IP
