@@ -15,4 +15,5 @@ echo "301 Moved Permanently" | sudo tee /var/www/html/moved_permanently.html
 # Modify Nginx configuration to implement the redirect
 sudo sed -i "/listen 80 default_server/a rewrite ^/redirect_me /moved_permanently permanent;" /etc/nginx/sites-available/default
 
+
 sudo service nginx restart

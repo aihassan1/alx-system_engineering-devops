@@ -1,21 +1,33 @@
 #!/usr/bin/env bash
 # Configure Nginx server to have a custom 404 page
 
-# install nginx server
+# Install nginx server
 sudo apt-get update -y
 sudo apt-get install nginx -y
 
+# Create directory for HTML files
 sudo mkdir -p /var/www/html
-#  sets the content of the index.html file to "Hello World!"
+
+# Set the content of the index.html file to "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Create a custom HTML file with "301 Moved Permanently" content
+# Create a custom HTML file with "Ceci n'est pas une page" content
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/not_found.html
 
 # Modify Nginx configuration to implement the redirect
-sudo sed -i "/listen 80 default_server/a rewrite ^/redirect_me /not_found permanent;" /etc/nginx/sites-available/default
+sudo sed -i "/listen 80 default_server/a rewrite ^/redirect_me /moved_permanently permanent;" /etc/nginx/sites-available/default
 
-# Configure Nginx server to redirect to the custom 404 page
-sudo sed -i "/listen 80 default_server/a error_page 404 /not_found;" /etc/nginx/sites-available/default
+# Modify Nginx configuration to point to the custom 404 page
+sudo sed -i "/listen 80 default_server;/a\    error_page 404 /not_found.html;" /etc/nginx/sites-available/default
 
+# Add location block for handling /not_found
+sudo tee -a /etc/nginx/sites-available/default <<EOF
+    location = /not_found {
+        internal;
+        root /var/www/html;
+        rewrite ^ /not_found.html break;
+    }
+EOF
+
+# Restart Nginx to apply changes
 sudo service nginx restart
