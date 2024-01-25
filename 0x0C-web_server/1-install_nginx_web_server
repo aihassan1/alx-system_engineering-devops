@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # install nginx server
+# ./0-transfer_file 1-install_nginx_web_server 18.210.14.47 ubuntu ~/.ssh/id_rsa
 
 sudo apt-get update -y
 sudo apt-get install nginx -y
