@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Configure a new Nginx server so that /redirect_me is redirecting to a page with "301 Moved Permanently"
+
+# install nginx server
+sudo apt-get update -y
+sudo apt-get install nginx -y
+
+sudo mkdir -p /var/www/html
+#  sets the content of the index.html file to "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Create a custom HTML file with "301 Moved Permanently" content
+echo "301 Moved Permanently" sudo tee /var/www/html/moved_permanently.html
+
+# Modify Nginx configuration to implement the redirect
+sudo sed -i "/listen 80 default_server/a rewrite ^/redirect_me /moved_permanently permanent;" /etc/nginx/sites-available/default
+
+sudo service nginx restart
