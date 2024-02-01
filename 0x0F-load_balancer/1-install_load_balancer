@@ -7,10 +7,11 @@ sudo apt-get -y upgrade
 sudo apt-get -y install haproxy
 
 # create the confg file
-sudo mkdir /etc/haproxy/
+sudo mkdir -p /etc/haproxy/
 
 # configure the HAproxy
-sudo chmod 755 /etc/haproxy/haproxy.cfg
+# sudo chmod 755 /etc/haproxy/haproxy.cfg
+sudo chown $USER:$USER /etc/haproxy/haproxy.cfg
 
 # create a backup of the haproxy.cfg file
 haproxy_file="/etc/haproxy/haproxy.cfg"
