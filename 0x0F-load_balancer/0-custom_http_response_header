@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Configure Nginx server
+
+# Install nginx server
+sudo apt-get update -y
+sudo apt-get install nginx -y
+
+# Create directory for HTML files
+sudo mkdir -p /var/www/html
+
+# Set permissions for web root directory
+sudo chmod -R 755 /var/www
+
+# Set the content of the index.html file to "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Create a custom HTML file with "301 Moved Permanently" content
+echo "301 Moved Permanently" | sudo tee /var/www/html/moved_permanently.html
+
+# Create a custom HTML file with "Ceci n'est pas une page" content
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/not_found.html
+
+# create a backup of the default Nginx configuration file if exists
+default_config="/etc/nginx/sites-available/default"
+if [ -f "$default_config" ]; then
+    sudo cp "$default_config" "$default_config.backup"
+fi
+
+# Set the server name to the hostname directly
+hostname=$(hostname)
+new_config="server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name $hostname;
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+        
+        # customize the error page
+        error_page 404 /not_found.html;
+        location /not_found.html {
+            internal;
+        }
+
+        if (\$request_filename ~ redirect_me){
+        rewrite ^ /moved_permanently.html permanent;
+        }
+
+        # Add custom header X-Served-By
+        add_header X-Served-By $hostname;
+}"
+
+# Write the new Nginx server configuration to the default configuration file
+echo "$new_config" | sudo tee "$default_config" >/dev/null
+
+# Restart Nginx to apply changes
+sudo service nginx restart
