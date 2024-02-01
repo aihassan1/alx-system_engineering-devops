@@ -6,9 +6,6 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install haproxy
 
-# create the confg file
-sudo mkdir -p /etc/haproxy/
-
 # configure the HAproxy
 # sudo chmod 755 /etc/haproxy/haproxy.cfg
 sudo chown $USER:$USER /etc/haproxy/haproxy.cfg
