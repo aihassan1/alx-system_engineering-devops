@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
-# install nginx server
+# This Bash script installs the Nginx server, removes the default server block configuration,
+# creates a symbolic link to the default server block configuration file, and restarts the Nginx service.
+
+# Update package lists to ensure we fetch the latest package information.
 sudo apt-get update -y
+
+# Install the Nginx package. The '-y' option automatically answers yes to any prompts during installation.
 sudo apt-get install nginx -y
+
+# Remove the default server block configuration file, which is typically used when no other server blocks are defined.
+# This allows us to replace it with a customized configuration or symbolic link.
 rm /etc/nginx/sites-enabled/default
+
+# Create a symbolic link named 'default' in the 'sites-enabled' directory that points to the 'default' configuration file in the 'sites-available' directory.
+# This enables the default server block configuration.
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart the Nginx service to apply the changes made to the server block configurations.
 sudo service nginx restart
