@@ -1,0 +1,13 @@
+#!/bin/bash
+# install a firewall and allow ports https ssh http only
+
+sudo apt-get update
+sudo apt-get install ufw -y
+
+sudo ufw default deny incoming
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow ssh
+
+sudo ufw --force enable
+sudo ufw reload
