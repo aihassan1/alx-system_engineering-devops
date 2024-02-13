@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# change the nginx user to be nginx
+
+# copy the confg file
+cp /etc/nginx/nginx.conf /etc/nginx/nginx_confg.cpy
+
+# Insert the 'user nginx' line at the beginning of the nginx.conf file
+sed -i '1i\user nginx;' /etc/nginx/nginx.conf
