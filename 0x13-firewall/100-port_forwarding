@@ -1,3 +1,4 @@
+#
 # rules.before
 #
 # Rules that should be run before the ufw command line added rules. Custom
@@ -77,8 +78,5 @@ COMMIT
 # nat table for redirection
 *nat
 :PREROUTING ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
 COMMIT
