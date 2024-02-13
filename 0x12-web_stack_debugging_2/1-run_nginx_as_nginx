@@ -6,3 +6,21 @@ cp /etc/nginx/nginx.conf /etc/nginx/nginx_confg.cpy
 
 # Insert the 'user nginx' line at the beginning of the nginx.conf file
 sed -i '1i\user nginx;' /etc/nginx/nginx.conf
+
+# Define the server block configuration
+server_block="
+server {
+    listen 8080 default_server;  # Listen on port 8080 for IPv4 connections
+    listen [::]:8080 default_server;  # Listen on port 8080 for IPv6 connections
+
+    # Server name set to catch-all
+    server_name _;
+
+    # Additional server configuration can be added here
+}
+"
+
+# Insert the server block configuration at the beginning of the HTTP section
+sed -i '/^http {/a\'"$server_block" /etc/nginx/nginx.conf
+
+sudo service nginx restart
