@@ -1,0 +1,12 @@
+-- here is the command list that i did in each server 
+
+sudo mysql
+
+CREATE USER 'holberton_user'@'localhost' IDENTIFIED BY 'projectcorrection280hbtn';
+
+GRANT REPLICATION CLIENT ON *.* TO 'holberton_user'@'localhost';
+
+FLUSH PRIVILEGES;
+
+-- check if it was made 
+show grants for 'holberton_user'@'localhost'

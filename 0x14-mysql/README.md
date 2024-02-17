@@ -1,7 +1,5 @@
 0x14-mysql
 
-I'd be glad to help you create a comprehensive README file for your 0x14. MySQL project, incorporating the best aspects of the provided responses and addressing any identified shortcomings.
-
 Project Overview:
 
 This project focuses on DevOps, SysAdmin, and MySQL administration skills.
