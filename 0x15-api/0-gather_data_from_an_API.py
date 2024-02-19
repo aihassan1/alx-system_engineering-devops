@@ -1,23 +1,34 @@
 #!/usr/bin/python3
-"""  
-Script that, using this REST API, for a given employee ID,
+"""
+Script that, using the JSONPlaceholder REST API, for a given employee ID,
 returns information about his/her TODO list progress.
 """
 import sys
 import requests
 
+# Get employee ID from command line argument
 employee_id = sys.argv[1]
 
+# Base URL for the JSONPlaceholder API
 url = "https://jsonplaceholder.typicode.com"
 
+# Parameters to filter TODO list by employee ID
 params = {"userId": employee_id}
+
+# Retrieve user information for the given employee ID
 user = requests.get(url + "/users/{}".format(employee_id)).json()
+
+# Retrieve TODO list for the given employee ID
 todos = requests.get(url + "/todos", params).json()
 
-completed_tasks = []  # Initialize completed_tasks list
+# Initialize a list to store titles of completed tasks
+completed_tasks = []
 
+# Iterate over each TODO item
 for task in todos:
+    # Check if the task is completed
     if task.get("completed") is True:
+        # Append the title of the completed task to the list
         completed_tasks.append(task.get("title"))
 
 # Print the employee's name and the number of completed tasks
@@ -26,6 +37,7 @@ print(
         user.get("name"), len(completed_tasks), len(todos)
     )
 )
-# Print the completed tasks one by one with indentation
+
+# Print the titles of completed tasks with indentation
 for complete in completed_tasks:
     print("\t {}".format(complete))
