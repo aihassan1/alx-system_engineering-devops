@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 """
-Script that, using the JSONPlaceholder REST API, for a given employee ID,
-returns information about his/her TODO list progress.
+Returns to-do list information for a given employee ID.
+
+This script takes an employee ID as a command-line argument and fetches
+the corresponding user information and to-do list from the JSONPlaceholder API.
+It then prints the tasks completed by the employee.
 """
-import sys
 import requests
+import sys
 
 # Get employee ID from command line argument
 employee_id = sys.argv[1]
