@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     # Retrieve user information for the given employee ID
     user = requests.get(url + "/users/{}".format(employee_id)).json()
-    user_id = user.get("id")
+    user_id = sys.argv[1]
     user_name = user.get("name")
 
     # Parameters to filter TODO list by employee ID
@@ -35,8 +35,7 @@ if __name__ == "__main__":
     for task in todos:
         TASK_COMPLETED_STATUS = task.get("completed")
         TASK_TITLE = task.get("title")
-        values_list.append(
-            [employee_id, user_name, TASK_COMPLETED_STATUS, TASK_TITLE])
+        values_list.append([employee_id, user_name, TASK_COMPLETED_STATUS, TASK_TITLE])
 
     with open(f"{user_id}.csv", "w", newline="") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
