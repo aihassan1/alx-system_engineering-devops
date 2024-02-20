@@ -1,44 +1,48 @@
 #!/usr/bin/python3
 
-"""returns information about his/her TODO list progress."""
+"""
+Python script that retrieves TODO list data from the JSONPlaceholder API and exports it in JSON format.
+"""
+
 import json
 import requests
 
-
 if __name__ == "__main__":
-    # Get user_id from command line argument
+    # Retrieve TODO list data from the API
+    todos_response = requests.get('https://jsonplaceholder.typicode.com/todos/')
+    todos_data = todos_response.json()
 
-    # Base URL for the JSONPlaceholder API
-    url = "https://jsonplaceholder.typicode.com"
+    # Retrieve users data from the API
+    users_response = requests.get('https://jsonplaceholder.typicode.com/users')
+    users_data = users_response.json()
 
-    # Parameters to filter TODO list by user_id
+    # Create a dictionary to store TODO list data grouped by user ID
+    todos_by_user = {}
 
-    # Retrieve user information for the given user_id ID
-    users = requests.get(url + "/users/").json()
+    # Iterate over each user
+    for user in users_data:
+        user_id = user['id']
+        username = user['username']
 
-    for user in users:
-        user_id = user["id"]
-        user_name = user["username"]
-        params = {"userId": user_id}
-        # Retrieve TODO list for the given user_id
-        todos = requests.get(url + "/todos", params).json()
+        # Initialize a list to store TODO items for this user
+        user_todos = []
 
-        todo_list = []  # Initialize a list to store todo dictionaries
+        # Iterate over each TODO item
+        for todo in todos_data:
+            # Check if the TODO item belongs to the current user
+            if todo['userId'] == user_id:
+                # Create a dictionary to represent the TODO item
+                todo_item = {
+                    'username': username,
+                    'task': todo['title'],
+                    'completed': todo['completed']
+                }
+                # Append the TODO item to the list of user's TODOs
+                user_todos.append(todo_item)
 
-        for task in todos:
-            TASK_COMPLETED_STATUS = task.get("completed")
-            TASK_TITLE = task.get("title")
-            USERNAME = user_name
+        # Add the list of user's TODOs to the dictionary
+        todos_by_user[user_id] = user_todos
 
-            todo_dict = {
-                "task": TASK_TITLE,
-                "completed": TASK_COMPLETED_STATUS,
-                "username": USERNAME,
-            }
-
-            todo_list.append(todo_dict)
-
-            all_tasks = {user_id: todo_list}
-
-        with open("todo_all_employees.json", "a") as file:
-            json.dump(all_tasks, file)
+    # Write the data to a JSON file
+    with open("todo_all_employees.json", "w") as json_file:
+        json.dump(todos_by_user, json_file)
