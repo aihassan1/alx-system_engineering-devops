@@ -14,14 +14,14 @@ if __name__ == "__main__":
 
     row = []
     response2 = get("https://jsonplaceholder.typicode.com/users")
-    data2 = response2.json()
+    users_data = response2.json()
 
-    for i in data2:
+    for i in users_data:
         if i["id"] == int(argv[1]):
             employee = i["username"]
 
     with open(argv[1] + ".csv", "w", newline="") as file:
-        writ = csv.writer(file, quoting=csv.QUOTE_ALL)
+        write = csv.writer(file, quoting=csv.QUOTE_ALL)
 
         for i in data:
 
@@ -32,5 +32,4 @@ if __name__ == "__main__":
                 row.append(i["completed"])
                 row.append(i["title"])
 
-                writ.writerow(row)
-
+                write.writerow(row)
