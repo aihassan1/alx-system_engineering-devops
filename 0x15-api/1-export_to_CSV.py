@@ -1,45 +1,36 @@
 #!/usr/bin/python3
 
 """
-returns information about his/her TODO list progress.
-export data in the CSV format
-
-USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE
+Python script that exports data in the CSV format
 """
+
+from requests import get
+from sys import argv
 import csv
-import requests
-import sys
 
 if __name__ == "__main__":
-    # Get employee ID from command line argument
-    employee_id = sys.argv[1]
+    response = get("https://jsonplaceholder.typicode.com/todos/")
+    data = response.json()
 
-    # Base URL for the JSONPlaceholder API
-    url = "https://jsonplaceholder.typicode.com"
+    row = []
+    response2 = get("https://jsonplaceholder.typicode.com/users")
+    data2 = response2.json()
 
-    # Retrieve user information for the given employee ID
-    user = requests.get(url + "/users/{}".format(employee_id)).json()
-    user_id = sys.argv[1]
-    user_name = user.get("name")
+    for i in data2:
+        if i["id"] == int(argv[1]):
+            employee = i["username"]
 
-    # Parameters to filter TODO list by employee ID
-    params = {"userId": employee_id}
+    with open(argv[1] + ".csv", "w", newline="") as file:
+        writ = csv.writer(file, quoting=csv.QUOTE_ALL)
 
-    # Retrieve TODO list for the given employee ID
-    todos = requests.get(url + "/todos", params).json()
+        for i in data:
 
-    # Initialize a list to store task information
-    values_list = []
+            row = []
+            if i["userId"] == int(argv[1]):
+                row.append(i["userId"])
+                row.append(employee)
+                row.append(i["completed"])
+                row.append(i["title"])
 
-    # Iterate over each TODO item
-    for task in todos:
-        TASK_COMPLETED_STATUS = task.get("completed")
-        TASK_TITLE = task.get("title")
-        values_list.append(
-            [employee_id, user_name, TASK_COMPLETED_STATUS, TASK_TITLE])
+                writ.writerow(row)
 
-    with open(f"{user_id}.csv", "w", newline="") as file:
-        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-
-        for value in values_list:
-            writer.writerow(value)
