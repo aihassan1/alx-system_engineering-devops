@@ -17,13 +17,13 @@ if __name__ == "__main__":
     # Base URL for the JSONPlaceholder API
     url = "https://jsonplaceholder.typicode.com"
 
-    # Parameters to filter TODO list by employee ID
-    params = {"userId": employee_id}
-
     # Retrieve user information for the given employee ID
     user = requests.get(url + "/users/{}".format(employee_id)).json()
     user_id = user.get("id")
     user_name = user.get("name")
+
+    # Parameters to filter TODO list by employee ID
+    params = {"userId": employee_id}
 
     # Retrieve TODO list for the given employee ID
     todos = requests.get(url + "/todos", params).json()
