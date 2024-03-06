@@ -13,7 +13,9 @@ def top_ten(subreddit):
     headers = {"User-Agent": "Reddit API Client"}
     params = {"limit": 10}
 
-    response = requests.get(url=url, headers=headers, params=params)
+    response = requests.get(
+        url=url, headers=headers, allow_redirects=False, params=params
+    )
 
     if response.status_code == 200:
         data = response.json()
