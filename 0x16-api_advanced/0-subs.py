@@ -14,7 +14,7 @@ def number_of_subscribers(subreddit):
     # Provide a custom User-Agent header
     headers = {'User-Agent': 'Reddit API Client'}
 
-    response = requests.get(url=url, headers=headers, allow_redirects=False)
+    response = requests.post(url=url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
         data = response.json()
         return data["data"]["subscribers"]
