@@ -2,7 +2,7 @@
 
 # Define an exec resource to replace the line that starts with 'worker_processes' using sed
 exec { 'set_worker_processes':
-  command  => "sed -i 's/[[:space:]]*worker_processes 4;/worker_processes 14;/' /etc/nginx/nginx.conf",
+  command  => "sed -i 's/[[:space:]]*worker_processes [0-9]*;/worker_processes 14;/' /etc/nginx/nginx.conf",
   provider => shell,
 }
 
